@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import Cards from './components/Cards/Cards';
 import Search from './components/Search/Search';
 
 import { constructPhotoImageUrl } from './utils';
 
-import { Main, Title } from './GlobalStyles';
+import { Main, Title, ScrollToTop } from './GlobalStyles';
 import FlickrApi from './api';
 
 interface RawPhoto {
@@ -26,15 +26,14 @@ export interface Photo {
 }
 
 const App = () => {
+  const scrollToTopRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLDivElement | null>(null);
+
   const [collectionData, setCollectionData] = useState<Photo[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentQuery, setCurrentQuery] = useState<string>('intel');
 
-  useEffect(() => {
-    handleFetch();
-
-    // eslint-disable-next-line
-  }, []);
-
-  const getPhotoImageUrls = (photos: RawPhoto[]) => {
+  const getPhotoImageUrls = (photos: RawPhoto[] = []) => {
     const Collection: Photo[] = photos.map((photo) => {
       const { id, server, secret, title } = photo;
 
@@ -44,31 +43,68 @@ const App = () => {
       };
     });
 
-    setCollectionData(Collection);
+    setCollectionData((collectionData) => [...collectionData, ...Collection]);
   };
 
-  const handleFetch = (queryString?: string) => {
-    FlickrApi.fetchPhotos(queryString).then((photos) =>
-      getPhotoImageUrls(photos)
-    );
+  const handleFetch = useCallback(async (params?: Record<string, string>) => {
+    await FlickrApi.fetchPhotos(params)
+      .then((photos) => getPhotoImageUrls(photos))
+      .catch((error) => console.log(error));
+  }, []);
+
+  const handleScrollToTop = () => {
+    if (titleRef?.current) {
+      titleRef.current.scrollTo(0, 0);
+    }
   };
 
-  // const getusertest = () => {
-  //   axios
-  //     .get(
-  //       `${REACT_APP_FLICKR_SEARCH_URL}&api_key=${process.env.REACT_APP_FLICKR_API_KEY}&FLickrApi_sig=${process.env.REACT_APP_FLICKR_API_SIGNATURE}&user_id=193170265@N04`
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     });
-  // };
+  const handleLoadMore = (entities: any) => {
+    const target = entities[0];
+
+    if (target.isIntersecting) {
+      setCurrentPage((currentPage) => currentPage + 1);
+    }
+  };
+
+  const handleSearch = (queryString: string) => {
+    setCurrentQuery(queryString);
+  };
+
+  useEffect(() => {
+    handleFetch({ page: `${currentPage}`, text: currentQuery });
+
+    // eslint-disable-next-line
+  }, [currentPage, currentQuery]);
+
+  // useEffect(() => {
+  //   const element = scrollToTopRef?.current;
+  //   const observer = new IntersectionObserver(handleLoadMore, {
+  //     root: null,
+  //     rootMargin: '0px',
+  //     threshold: 1.0,
+  //   });
+
+  //   if (element) {
+  //     observer.observe(element);
+  //   }
+
+  //   return () => {
+  //     if (element) {
+  //       observer.unobserve(element);
+  //     }
+  //   };
+  // }, []);
 
   return (
     <Main>
-      <Title>Intel assignment</Title>
+      <Title ref={titleRef}>Intel assignment</Title>
 
-      <Search onSearch={handleFetch} />
+      <Search onSearch={handleSearch} />
       <Cards collection={collectionData} />
+
+      <ScrollToTop ref={scrollToTopRef} onClick={handleScrollToTop}>
+        Scroll to top
+      </ScrollToTop>
     </Main>
   );
 };
