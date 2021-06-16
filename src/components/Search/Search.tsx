@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import { SearchWrapper, Input, Button } from './SearchStyles';
 
-const Search = () => {
+interface SearchProps {
+  onSearch: (queryString: string) => void;
+}
+
+const Search = ({ onSearch }: SearchProps) => {
+  const [queryString, setQueryString] = useState<string>('');
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQueryString(e.currentTarget.value);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onSearch(queryString);
+    }
+
+    return;
+  };
+
+  const handleSearch = () => {
+    onSearch(queryString);
+  };
+
   return (
     <SearchWrapper>
-      <Input />
-      <Button>Search</Button>
+      <Input
+        value={queryString}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+      />
+      <Button onClick={handleSearch}>Search</Button>
     </SearchWrapper>
   );
 };

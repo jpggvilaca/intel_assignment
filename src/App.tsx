@@ -47,11 +47,11 @@ const App = () => {
     setCollectionData(Collection);
   };
 
-  const handleFetch = () => {
-    FlickrApi.fetchPhotos().then((photos) => getPhotoImageUrls(photos));
+  const handleFetch = (queryString?: string) => {
+    FlickrApi.fetchPhotos(queryString).then((photos) =>
+      getPhotoImageUrls(photos)
+    );
   };
-
-  const handleChange = () => {};
 
   // const getusertest = () => {
   //   axios
@@ -67,7 +67,7 @@ const App = () => {
     <Main>
       <Title>Intel assignment</Title>
 
-      <Search />
+      <Search onSearch={handleFetch} />
       <Cards collection={collectionData} />
     </Main>
   );

@@ -1,10 +1,15 @@
 /*
   Construct URL to use `flickr.photos.search` api
 */
-export const constructAxiosGetUrl = (searchText: string = 'nvidia') => {
+export const constructAxiosGetUrl = (searchText: string = '') => {
   const REACT_APP_FLICKR_SEARCH_URL = 'https://api.flickr.com/services/rest';
+
+  // "Parameterless searches have been disabled by Flickr. If 'text' is empty then
+  //  the `getRecent` endpoint should be used instead
+  const method = searchText.length ? 'flickr.photos.search' : 'flickr.photos.getRecent';
+
   const params = {
-    method: 'flickr.photos.search',
+    method,
     api_key: `${process.env.REACT_APP_FLICKR_API_KEY}`,
     FLickrApi_sig: `${process.env.REACT_APP_FLICKR_API_SIGNATURE}`,
     format: 'json',
