@@ -15,14 +15,14 @@ export const Card = styled.div<{ $backgroundImage: string }>`
   background-repeat: no-repeat;
   height: 180px;
   position: relative;
+  padding: 4px;
 `;
 
 export const Metadata = styled.div`
-  opacity: 0;
   position: absolute;
-  transition: all 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  transition: all 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
   transition-property: opacity, background-color;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0);
   left: 0;
   right: 0;
   top: 0;
@@ -31,7 +31,20 @@ export const Metadata = styled.div`
   padding: 8px;
   align-items: flex-end;
 
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  }
+
   &:hover {
-    opacity: 0.7;
+    background-color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+
+    span {
+      opacity: 1;
+    }
   }
 `;
