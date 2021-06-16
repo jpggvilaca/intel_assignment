@@ -1,9 +1,16 @@
 import React from 'react';
 
-const App = () => (
-  <div className="App">
-    app
-  </div>
-)
+import Cards from './components/Cards';
+
+import { Main, Title } from './GlobalStyles';
+
+const App = () => {
+  return (
+    <Main>
+      <Title>Intel assignment</Title>
+      <Cards />
+    </Main>
+  );
+};
 
 export default App;
