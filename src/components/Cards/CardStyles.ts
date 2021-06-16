@@ -48,3 +48,14 @@ export const Metadata = styled.div`
     }
   }
 `;
+
+export const FullScreen = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: black;
+  border: 1px solid #fff;
+  padding: 20px;
+`
