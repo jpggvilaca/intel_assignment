@@ -1,27 +1,17 @@
 /*
   Construct URL to use `flickr.photos.search` api
 */
-export const constructAxiosGetUrl = (searchText: string = '') => {
+export const constructAxiosGetUrl = (params: Record<string, string>) => {
   const REACT_APP_FLICKR_SEARCH_URL = 'https://api.flickr.com/services/rest';
 
   // "Parameterless searches have been disabled by Flickr. If 'text' is empty then
   //  the `getRecent` endpoint should be used instead
-  const method = searchText.length ? 'flickr.photos.search' : 'flickr.photos.getRecent';
+  // const method = params?.text?.length ? 'flickr.photos.search' : 'flickr.photos.getRecent';
 
-  const params = {
-    method,
-    api_key: `${process.env.REACT_APP_FLICKR_API_KEY}`,
-    FLickrApi_sig: `${process.env.REACT_APP_FLICKR_API_SIGNATURE}`,
-    format: 'json',
-    page: '0',
-    per_page: '20',
-    privacy_filter: '1',
-    safe_search: '1',
-    nojsoncallback: 'true',
-    text: searchText,
-  }
+  // `getRecent` endpoint was returning innapropriate photos so Im only using .search api
+  const method = 'flickr.photos.search';
 
-  const query = new URLSearchParams(params);
+  const query = new URLSearchParams({ ...params, method });
 
   return `${REACT_APP_FLICKR_SEARCH_URL}?${query}`;
 };
