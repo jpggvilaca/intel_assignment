@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { FullScreen, Close } from './CardStyles';
 
 interface ModalProps {
@@ -6,28 +7,36 @@ interface ModalProps {
 }
 
 const FullScreenModal = ({ photo, onClose }: ModalProps) => {
-  const srcImgEl = document.getElementById(photo);
+  const srcImgEl = useRef(null);
 
-  if (srcImgEl) {
-    const src = cv.imread(srcImgEl);
-    const dst = new cv.Mat();
+  useEffect(() => {
+    if (srcImgEl.current) {
+      const src = cv.imread(srcImgEl.current);
+      const dst = new cv.Mat();
 
-    cv.cvtColor(src, src, cv.COLOR_RGB2GRAY, 0);
+      cv.cvtColor(src, src, cv.COLOR_BGRA2RGBA, 0);
 
-    cv.Canny(src, dst, 50, 100, 3, false);
+      cv.Canny(src, dst, 50, 100, 3, false);
 
-    cv.imshow('output', dst);
+      cv.imshow('output', dst);
 
-    src.delete();
-    dst.delete();
-  }
-
-  // Did not have time to make the cv output work
+      src.delete();
+      dst.delete();
+    }
+  }, [srcImgEl]);
 
   return (
     <FullScreen>
       <Close onClick={onClose} />
-      <img id={photo} src={photo} alt="imageInput" />
+      <img
+        crossOrigin="anonymous"
+        ref={srcImgEl}
+        src={photo}
+        id={photo}
+        alt="imageInput"
+        width="300"
+        height="300"
+      />
       <canvas width="300" height="300" id="output"></canvas>
     </FullScreen>
   );

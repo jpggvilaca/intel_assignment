@@ -7,5 +7,5 @@ interface CV {
   Canny: (src, dest, arg1, arg2, arg3, arg4) => void;
   imshow: (canvasOutput, dest) => void;
   delete: () => void;
-  COLOR_RGB2GRAY: string;
+  COLOR_BGRA2RGBA: number;
 }

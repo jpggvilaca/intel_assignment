@@ -4,7 +4,7 @@
 - Run `yarn` to install dependencies
 - Run `yarn start`. A new tab should open automatically in your browser
 
-- Node > 10 is required.
+- Node >= 10.14 is required.
 
 ## Decisions
 
