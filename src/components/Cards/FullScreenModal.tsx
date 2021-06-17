@@ -1,10 +1,11 @@
-import { Canvas, FullScreen } from './CardStyles';
+import { FullScreen, Close } from './CardStyles';
 
 interface ModalProps {
   photo: string;
+  onClose: () => void;
 }
 
-const FullScreenModal = ({ photo }: ModalProps) => {
+const FullScreenModal = ({ photo, onClose }: ModalProps) => {
   const srcImgEl = document.getElementById(photo);
 
   if (srcImgEl) {
@@ -23,7 +24,8 @@ const FullScreenModal = ({ photo }: ModalProps) => {
 
   return (
     <FullScreen>
-      <Canvas id={photo} $backgroundImage={photo} />
+      <Close onClick={onClose} />
+      <img src={photo} alt="imageInput" />
       <canvas width="300" height="300" id="output"></canvas>
     </FullScreen>
   );

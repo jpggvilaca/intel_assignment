@@ -25,7 +25,12 @@ const Cards = ({ collection = [] }: CardsProps) => {
         </Card>
       ))}
 
-      {selectedPhoto ? <FullScreenModal photo={selectedPhoto} /> : null}
+      {selectedPhoto ? (
+        <FullScreenModal
+          onClose={() => setSelectedPhoto(null)}
+          photo={selectedPhoto}
+        />
+      ) : null}
     </Container>
   );
 };

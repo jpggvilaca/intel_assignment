@@ -50,7 +50,7 @@ export const Metadata = styled.div`
 `;
 
 export const FullScreen = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -58,11 +58,21 @@ export const FullScreen = styled.div`
   background: black;
   border: 1px solid #fff;
   padding: 20px;
-`
+`;
 
-export const Canvas = styled.canvas<{ $backgroundImage: string }>`
-  background-image: url(${(props) => props.$backgroundImage});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-`
+export const Close = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 44px;
+  width: 44px;
+  font-size: 44px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:before {
+    content: 'x';
+  }
+`;

@@ -22,8 +22,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - src/api.ts for any code that handles api interaction
 - src/utils for utility functions
 
-## What's left to be done
+## If I had more time
 
 - Unit tests
 - Additional styling
 - Fetch user info to display more metadata
+- Error handling
