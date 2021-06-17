@@ -6,7 +6,7 @@ interface ModalProps {
 }
 
 const FullScreenModal = ({ photo, onClose }: ModalProps) => {
-  const srcImgEl = document.getElementById(photo);
+  let srcImgEl = document.getElementById(photo);
 
   if (srcImgEl) {
     const src = cv.imread(srcImgEl);
@@ -22,10 +22,12 @@ const FullScreenModal = ({ photo, onClose }: ModalProps) => {
     dst.delete();
   }
 
+  // Did not have time to make the cv output work
+
   return (
     <FullScreen>
       <Close onClick={onClose} />
-      <img src={photo} alt="imageInput" />
+      <img id={photo} src={photo} alt="imageInput" />
       <canvas width="300" height="300" id="output"></canvas>
     </FullScreen>
   );

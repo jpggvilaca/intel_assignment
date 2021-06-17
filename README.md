@@ -1,12 +1,8 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Instructions
 
-- Clone the project
 - Rename `.env.example` to `.env` and replace the api keys with your own
-- Run `yarn start`
+- Run `yarn` to install dependencies
+- Run `yarn start`. A new tab should open automatically in your browser
 
 - Node > 10 is required.
 

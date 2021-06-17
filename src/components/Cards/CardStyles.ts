@@ -32,6 +32,7 @@ export const Metadata = styled.div`
   align-items: flex-end;
 
   span {
+    color: black;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
