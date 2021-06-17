@@ -6,7 +6,7 @@ interface ModalProps {
 }
 
 const FullScreenModal = ({ photo, onClose }: ModalProps) => {
-  let srcImgEl = document.getElementById(photo);
+  const srcImgEl = document.getElementById(photo);
 
   if (srcImgEl) {
     const src = cv.imread(srcImgEl);
