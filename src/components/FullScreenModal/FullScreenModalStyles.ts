@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-export const FullScreen = styled.div`
+export const FullScreen = styled.div<{ $isVisible: boolean }>`
+  visibility: ${(props) => props.$isVisible ? 'visible' : 'hidden'};
   position: fixed;
   top: 0;
   bottom: 0;
