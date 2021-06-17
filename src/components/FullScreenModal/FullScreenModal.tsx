@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { FullScreen, Close } from './CardStyles';
+import { FullScreen, Close, Canvas, Image } from './FullScreenModalStyles';
 
 interface ModalProps {
   photo: string;
@@ -28,16 +28,14 @@ const FullScreenModal = ({ photo, onClose }: ModalProps) => {
   return (
     <FullScreen>
       <Close onClick={onClose} />
-      <img
+      <Image
         crossOrigin="anonymous"
         ref={srcImgEl}
         src={photo}
         id={photo}
         alt="imageInput"
-        width="300"
-        height="300"
       />
-      <canvas width="300" height="300" id="output"></canvas>
+      <Canvas width="300" height="300" id="output" />
     </FullScreen>
   );
 };

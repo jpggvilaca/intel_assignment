@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Photo } from '../../App';
-import FullScreenModal from './FullScreenModal';
+import FullScreenModal from '../FullScreenModal/FullScreenModal';
 
 import { Container, Card, Metadata } from './CardStyles';
 interface CardsProps {
