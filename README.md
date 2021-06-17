@@ -18,7 +18,7 @@
 - src/api.ts for any code that handles api interaction
 - src/utils for utility functions
 
-## If I had more time
+## What's missing
 
 - Unit tests
 - Additional styling
