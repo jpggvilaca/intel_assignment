@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Photo } from '../../App';
 import FullScreenModal from './FullScreenModal';

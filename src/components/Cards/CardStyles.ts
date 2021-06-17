@@ -59,3 +59,10 @@ export const FullScreen = styled.div`
   border: 1px solid #fff;
   padding: 20px;
 `
+
+export const Canvas = styled.canvas<{ $backgroundImage: string }>`
+  background-image: url(${(props) => props.$backgroundImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`

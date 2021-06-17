@@ -8,7 +8,7 @@ export const constructAxiosGetUrl = (params: Record<string, string>) => {
   //  the `getRecent` endpoint should be used instead
   // const method = params?.text?.length ? 'flickr.photos.search' : 'flickr.photos.getRecent';
 
-  // `getRecent` endpoint was returning innapropriate photos so Im only using .search api
+  // `getRecent` endpoint was returning innapropriate photos so I commented the code above
   const method = 'flickr.photos.search';
 
   const query = new URLSearchParams({ ...params, method });

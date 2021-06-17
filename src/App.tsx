@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 import Cards from './components/Cards/Cards';
 import Search from './components/Search/Search';
 
 import { constructPhotoImageUrl } from './utils';
 
-import { Main, Title, ScrollToTop } from './GlobalStyles';
+import { Main, Title, Bottom } from './GlobalStyles';
 import FlickrApi from './api';
 
 interface RawPhoto {
@@ -26,8 +26,7 @@ export interface Photo {
 }
 
 const App = () => {
-  const scrollToTopRef = useRef<HTMLDivElement | null>(null);
-  const titleRef = useRef<HTMLDivElement | null>(null);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [collectionData, setCollectionData] = useState<Photo[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -52,12 +51,6 @@ const App = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  const handleScrollToTop = () => {
-    if (titleRef?.current) {
-      titleRef.current.scrollTo(0, 0);
-    }
-  };
-
   const handleLoadMore = (entities: any) => {
     const target = entities[0];
 
@@ -76,35 +69,33 @@ const App = () => {
     // eslint-disable-next-line
   }, [currentPage, currentQuery]);
 
-  // useEffect(() => {
-  //   const element = scrollToTopRef?.current;
-  //   const observer = new IntersectionObserver(handleLoadMore, {
-  //     root: null,
-  //     rootMargin: '0px',
-  //     threshold: 1.0,
-  //   });
+  useEffect(() => {
+    const element = bottomRef?.current;
+    const observer = new IntersectionObserver(handleLoadMore, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
 
-  //   if (element) {
-  //     observer.observe(element);
-  //   }
+    if (element) {
+      observer.observe(element);
+    }
 
-  //   return () => {
-  //     if (element) {
-  //       observer.unobserve(element);
-  //     }
-  //   };
-  // }, []);
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, []);
 
   return (
     <Main>
-      <Title ref={titleRef}>Intel assignment</Title>
+      <Title>Intel assignment</Title>
 
       <Search onSearch={handleSearch} />
       <Cards collection={collectionData} />
 
-      <ScrollToTop ref={scrollToTopRef} onClick={handleScrollToTop}>
-        Scroll to top
-      </ScrollToTop>
+      <Bottom ref={bottomRef} />
     </Main>
   );
 };

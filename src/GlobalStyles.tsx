@@ -39,7 +39,7 @@ export const Title = styled.h1`
   padding: 24px;
 `;
 
-export const ScrollToTop = styled.div`
+export const Bottom = styled.div`
   width: 100%;
   height: 20px;
 `;
