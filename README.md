@@ -24,3 +24,4 @@
 - Additional styling
 - Fetch user info to display more metadata
 - Error handling
+- Loading states

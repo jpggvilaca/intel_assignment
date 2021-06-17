@@ -31,7 +31,9 @@ const App = () => {
   const [collectionData, setCollectionData] = useState<Photo[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentQuery, setCurrentQuery] = useState<string>('intel');
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
+  /* Get all the photo image urls from fetched photos */
   const getPhotoImageUrls = (photos: RawPhoto[] = []) => {
     const Collection: Photo[] = photos.map((photo) => {
       const { id, server, secret, title } = photo;
@@ -42,12 +44,17 @@ const App = () => {
       };
     });
 
-    setCollectionData((collectionData) => [...collectionData, ...Collection]);
+    setCollectionData([...collectionData, ...Collection]);
   };
 
   const handleFetch = useCallback(async (params?: Record<string, string>) => {
+    setIsFetching(true);
+
     await FlickrApi.fetchPhotos(params)
-      .then((photos) => getPhotoImageUrls(photos))
+      .then((photos) => {
+        getPhotoImageUrls(photos);
+        setIsFetching(false);
+      })
       .catch((error) => console.log(error));
   }, []);
 
@@ -55,11 +62,15 @@ const App = () => {
     const target = entities[0];
 
     if (target.isIntersecting) {
-      setCurrentPage((currentPage) => currentPage + 1);
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
   const handleSearch = (queryString: string) => {
+    // Clear previous search results
+    setCollectionData([]);
+
+    // Update new query
     setCurrentQuery(queryString);
   };
 
@@ -70,11 +81,12 @@ const App = () => {
   }, [currentPage, currentQuery]);
 
   useEffect(() => {
+    // IntersectionObserver logic
     const element = bottomRef?.current;
     const observer = new IntersectionObserver(handleLoadMore, {
       root: null,
       rootMargin: '0px',
-      threshold: 1.0,
+      threshold: 0.25,
     });
 
     if (element) {
@@ -86,6 +98,8 @@ const App = () => {
         observer.unobserve(element);
       }
     };
+
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -93,7 +107,10 @@ const App = () => {
       <Title>Intel assignment</Title>
 
       <Search onSearch={handleSearch} />
+
       <Cards collection={collectionData} />
+
+      {isFetching ? <p>Loading images...</p> : null}
 
       <Bottom ref={bottomRef} />
     </Main>
